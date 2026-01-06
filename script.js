@@ -180,11 +180,13 @@ function init() {
         button.addEventListener('click', function(){
             if (this.classList.contains('loading')) return;
             const fileName = this.dataset.file;
+            if (!fileName) return; // guard: no attempt to download undefined
             startDownload(this, fileName);
         });
     });
 
     function startDownload(button, fileName){
+        if (!fileName) return; // extra guard
         button.classList.add('loading');
         const btnText = button.querySelector('.btn-text');
         const loadingBars = button.querySelector('.loading-bars');
@@ -295,7 +297,11 @@ function init() {
     function updateAuthUI(){
         const cur = localStorage.getItem('currentUser');
         if (cur){
-            userDisplay.textContent = cur;
+            // truncate nickname to max 16 chars and add ellipsis if needed
+            const maxLen = 16;
+            let display = cur;
+            if (display.length > maxLen) display = display.slice(0, maxLen - 3) + '...';
+            userDisplay.textContent = display;
             userArea.style.display = 'flex';
             if (loginBtn) loginBtn.style.display = 'none';
             if (registerBtn) registerBtn.style.display = 'none';
