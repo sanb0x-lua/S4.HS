@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+function init() {
     // Создаем белые линии на фоне
     function createLines() {
         const linesContainer = document.getElementById('lines');
@@ -371,4 +371,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     animateBackground();
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
