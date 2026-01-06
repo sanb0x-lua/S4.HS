@@ -547,6 +547,30 @@ footer p {
     transform: scale(1.2);
 }
 
+/* Force any remaining blue-ish image/icon tones toward red hues */
+.mod-img,
+.btn-icon,
+.mod-image img {
+    -webkit-filter: hue-rotate(-20deg) saturate(1.15) brightness(0.98);
+    filter: hue-rotate(-20deg) saturate(1.15) brightness(0.98);
+}
+
+/* Links and focus outlines use red tones */
+a,
+a:visited {
+    color: #ffb3b3;
+}
+
+button:focus,
+.download-btn:focus,
+.menu-btn:focus,
+.social-btn:focus,
+.contact-btn:focus,
+.menu-item:focus {
+    outline: 2px solid rgba(255,120,120,0.18);
+    box-shadow: 0 0 12px rgba(255,120,120,0.12);
+}
+
 /* VPN Detection Warning */
 .vpn-warning {
     position: fixed;
