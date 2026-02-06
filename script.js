@@ -150,12 +150,35 @@ function init() {
     // Download buttons
     const downloadBtns = document.querySelectorAll('.download-btn');
     downloadBtns.forEach(button => {
-        button.addEventListener('click', function(){
-            if (this.classList.contains('loading')) return;
-            const fileName = this.dataset.file;
-            startDownload(this, fileName);
+        button.addEventListener('click', function(e){
+            const fileName = this.dataset.file || this.textContent.trim();
+            openDownloadModal(fileName);
         });
     });
+
+    // Modal logic
+    const downloadModal = document.getElementById('downloadModal');
+    const modalClose = document.getElementById('modalClose');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDirect = document.getElementById('modalDirect');
+    const modalMirror = document.getElementById('modalMirror');
+
+    function openDownloadModal(fileName){
+        if (!downloadModal) return;
+        modalTitle.textContent = `Скачать: ${fileName}`;
+        modalDirect.href = encodeURI(fileName);
+        modalDirect.setAttribute('download', fileName);
+        modalMirror.href = '#';
+        downloadModal.setAttribute('aria-hidden','false');
+    }
+
+    function closeDownloadModal(){
+        if (!downloadModal) return;
+        downloadModal.setAttribute('aria-hidden','true');
+    }
+
+    if (modalClose) modalClose.addEventListener('click', closeDownloadModal);
+    if (downloadModal) downloadModal.addEventListener('click', function(e){ if (e.target === this) closeDownloadModal(); });
 
     function startDownload(button, fileName){
         button.classList.add('loading');
@@ -198,6 +221,33 @@ function init() {
         setInterval(()=>{ position = (position + 1) % 10000; bg.style.backgroundPosition = `${position}px ${position}px`; }, 60);
     }
     animateBackground();
+
+    // Simple SPA navigation
+    function showSection(id){
+        document.querySelectorAll('.section').forEach(s=> s.classList.remove('active'));
+        const el = document.getElementById(id);
+        if (el) el.classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(n=> n.classList.toggle('active', n.dataset.target===id));
+    }
+
+    document.querySelectorAll('.nav-link').forEach(btn=>{
+        btn.addEventListener('click', ()=> showSection(btn.dataset.target));
+    });
+
+    // Theme toggle (dark / red)
+    const themeToggle = document.getElementById('themeToggle');
+    function applyTheme(name){
+        if (name === 'red') document.body.classList.add('alt-theme'); else document.body.classList.remove('alt-theme');
+        localStorage.setItem('preferredTheme', name);
+        if (themeToggle) themeToggle.textContent = name === 'red' ? '☀️' : '🌑';
+    }
+    const savedTheme = localStorage.getItem('preferredTheme') || 'dark';
+    applyTheme(savedTheme);
+    if (themeToggle) themeToggle.addEventListener('click', ()=> applyTheme(document.body.classList.contains('alt-theme') ? 'dark' : 'red'));
+
+    // Initialize show based on hash or default
+    const initial = location.hash ? location.hash.replace('#','') : 'home';
+    showSection(initial);
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

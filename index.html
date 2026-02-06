@@ -14,7 +14,17 @@
     <div class="container">
         <header>
             <div class="header-content" style="flex-direction:column;align-items:center;">
-                <h1 class="logo">Sanbox Mods</h1>
+                <div class="top-row">
+                    <h1 class="logo">Sanbox Mods</h1>
+                    <div class="theme-wrap">
+                        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌑</button>
+                    </div>
+                </div>
+                <nav class="main-nav">
+                    <button class="nav-link active" data-target="home">Home</button>
+                    <button class="nav-link" data-target="mods">Mods</button>
+                    <button class="nav-link" data-target="download">Download</button>
+                </nav>
             </div>
         </header>
 
@@ -80,6 +90,29 @@
                 </div>
             </section>
 
+            <section id="download" class="section">
+                <div class="download-section">
+                    <h2 class="section-title">Скачать</h2>
+                    <p class="section-subtitle">Выберите файл для загрузки</p>
+                    <div class="download-list">
+                        <div class="download-item">
+                            <div class="download-item-info">
+                                <strong>Script.zip</strong>
+                                <span>Обычная сборка</span>
+                            </div>
+                            <button class="download-btn" data-file="Script.zip">Скачать</button>
+                        </div>
+                        <div class="download-item">
+                            <div class="download-item-info">
+                                <strong>Hypper Sandbox Mod.zip</strong>
+                                <span>Полный мод-пак</span>
+                            </div>
+                            <button class="download-btn" data-file="Hypper Sandbox Mod.zip">Скачать</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <div class="info-section">
                 <div class="divider"></div>
                 <p class="info-text" id="infoText">
@@ -94,5 +127,16 @@
     </div>
 
     <script src="script.js"></script>
+    <div id="downloadModal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close-btn" id="modalClose">✕</button>
+            <h3 id="modalTitle">Скачать</h3>
+            <p id="modalDesc">Выберите вариант загрузки:</p>
+            <div class="modal-actions">
+                <a id="modalDirect" class="modal-btn" download>Прямая загрузка</a>
+                <a id="modalMirror" class="modal-btn">Зеркало</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
